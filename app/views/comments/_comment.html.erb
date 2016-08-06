@@ -1,0 +1,11 @@
+<li> <%= comment.author.username %><%= nice_time(comment.created_at) %>:
+  <%= link_to(comment.content, comment_url(comment)) %>
+  (<%= comment.vote_score %>)
+  <%= button_to("Upvote", upvote_comment_url(comment)) %>
+  <%= button_to("Downvote", downvote_comment_url(comment)) %>
+</li>
+<ul>
+  <% @all_comments[comment.id].sort{ |a, b| b.vote_score <=> a.vote_score}.reverse.each do |c2| %>
+      <%= render c2 %>
+  <% end %>
+</ul>

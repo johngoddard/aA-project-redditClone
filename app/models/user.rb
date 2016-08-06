@@ -6,6 +6,23 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
+  has_many :subs,
+    primary_key: :id,
+    foreign_key: :moderator_id,
+    class_name: :Sub,
+    inverse_of: :moderator
+
+  has_many :posts,
+    primary_key: :id,
+    foreign_key: :author_id,
+    class_name: :Post,
+    inverse_of: :author
+
+  has_many :comments,
+    primary_key: :id,
+    foreign_key: :author_id,
+    class_name: :Comment
+
   def self.generate_session_token
     SecureRandom::urlsafe_base64(32)
   end

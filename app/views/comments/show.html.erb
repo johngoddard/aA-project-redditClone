@@ -1,0 +1,18 @@
+<h1>Show Comment</h1>
+
+<h4>Desctiption: </h4>
+<ul>
+  <li><%= @comment.content %></li>
+  <li>  <%= button_to("Upvote", upvote_comment_url(@comment)) %>
+    <%= button_to("Downvote", downvote_comment_url(@comment)) %></li>
+    <li>Comment score: <%= @comment.vote_score %> </li>
+</ul>
+
+<form action="<%= comments_url %>" method="post">
+  <%= form_token %>
+  <input type="hidden" name="comment[parent_comment_id]" value="<%= @comment.id %>">
+  <input type="hidden" name="comment[post_id]" value="<%= @comment.post.id %>">
+  <textarea name="comment[content]" rows="4" cols="80"></textarea>
+  <br>
+  <input type="submit" value="Submit reply">
+</form>

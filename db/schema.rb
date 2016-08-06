@@ -11,7 +11,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160805170856) do
+ActiveRecord::Schema.define(version: 20160805231938) do
+
+  create_table "comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "author_id"
+    t.integer  "post_id"
+    t.integer  "parent_comment_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "comments", ["author_id"], name: "index_comments_on_author_id"
+  add_index "comments", ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id"
+
+  create_table "post_subs", force: :cascade do |t|
+    t.integer  "post_id",    null: false
+    t.integer  "sub_id",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "post_subs", ["post_id"], name: "index_post_subs_on_post_id"
+  add_index "post_subs", ["sub_id"], name: "index_post_subs_on_sub_id"
+
+  create_table "posts", force: :cascade do |t|
+    t.string   "title",      null: false
+    t.string   "url"
+    t.text     "content"
+    t.integer  "author_id",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "posts", ["author_id"], name: "index_posts_on_author_id"
+
+  create_table "subs", force: :cascade do |t|
+    t.string   "title",        null: false
+    t.text     "description",  null: false
+    t.integer  "moderator_id", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "subs", ["moderator_id"], name: "index_subs_on_moderator_id"
+  add_index "subs", ["title"], name: "index_subs_on_title", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
@@ -22,5 +67,17 @@ ActiveRecord::Schema.define(version: 20160805170856) do
   end
 
   add_index "users", ["session_token"], name: "index_users_on_session_token", unique: true
+
+  create_table "votes", force: :cascade do |t|
+    t.integer  "value",        null: false
+    t.integer  "user_id",      null: false
+    t.integer  "votable_id"
+    t.string   "votable_type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "votes", ["user_id"], name: "index_votes_on_user_id"
+  add_index "votes", ["votable_type", "votable_id"], name: "index_votes_on_votable_type_and_votable_id"
 
 end

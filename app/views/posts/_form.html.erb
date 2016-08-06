@@ -1,0 +1,35 @@
+<form  action="<%= action %>" method="post">
+  <%= form_token %>
+  <input type="hidden" name="_method" value="<%= method %>">
+  <label>Title:
+    <input type="text" name="post[title]" value="<%= post.title %>">
+  </label>
+  <br>
+  <label>URL:
+    <input type="text" name="post[url]" value="<%= post.url %>">
+  </label><br>
+
+  <label>Content:
+    <br>
+    <textarea name="post[content]" rows="8" cols="80">
+      <%= post.content %>
+    </textarea>
+  </label>
+  <br>
+
+  <input type="hidden" name="post[sub_ids][]" value="">
+
+  <% Sub.all.each do |sub| %>
+    <label><%= sub.title %>
+      <input type="checkbox"
+             name="post[sub_ids][]"
+             value="<%= sub.id %>"
+             <%= "checked" if post.sub_ids.include?(sub.id) %>>
+    </label>
+  <% end %>
+
+  <br>
+  <input type="submit"  value="<%= button_text  %>">
+
+
+</form>

@@ -1,0 +1,9 @@
+<h1>User Page: <%= @user.username %></h1>
+<% if @user.subs.length > 0 %>
+  <h4>Moderated Subs</h4>
+    <ul>
+      <%= render @user.subs %>
+    </ul>
+<% end %>
+
+<%= button_to("Create a New Sub", new_user_sub_url(current_user), method: :get) %>

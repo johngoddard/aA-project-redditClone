@@ -1,0 +1,5 @@
+<li> <%= link_to post.title, post_url(post) %>
+  (<%= post.vote_score %>)
+  <%= button_to("Upvote", upvote_post_url(post)) %>
+  <%= button_to("Downvote", downvote_post_url(post)) %>
+</li>

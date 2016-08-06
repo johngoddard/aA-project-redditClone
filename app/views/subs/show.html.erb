@@ -1,0 +1,17 @@
+<h1><%= @sub.title %></h1>
+
+<h4>Sub Details:</h4>
+<ul>
+  <li>Moderator: <%= @sub.moderator.username %></li>
+  <li>Description: <%= @sub.description %></li>
+</ul>
+
+<h4>posts</h4>
+<ul>
+  <%= render @sub.posts.sort{ |a, b| b.vote_score <=> a.vote_score}.reverse %>
+</ul>
+
+<% if current_user == @sub.moderator %>
+  <%= button_to("Edit Sub", edit_sub_url(@sub), method: :get) %>
+<% end %>
+<br>

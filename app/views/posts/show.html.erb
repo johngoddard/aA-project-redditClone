@@ -1,0 +1,39 @@
+<h1> <%= @post.title %> </h1>
+
+<h4>Post Description</h4>
+<ul>
+  <li>Author: <%= @post.author.username %></li>
+  <li>Content: <%= @post.content %></li>
+  <li>Post Score: <%= @post.vote_score %></li>
+  <li><%= button_to("Upvote", upvote_post_url(@post)) %>
+  <%= button_to("Downvote", downvote_post_url(@post)) %></li>
+</ul>
+
+<% if @post.comments.length > 0 %>
+  <h4>Comments: </h4>
+
+  <ul>
+    <% @all_comments[nil].sort{ |a, b| b.vote_score <=> a.vote_score}.each do |comment| %>
+      <%= render comment %>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if current_user %>
+  <h4>New Comment</h4>
+
+  <form  action="<%= comments_url %>" method="post">
+    <%= form_token %>
+    <label>
+      <textarea name="comment[content]" rows="4" cols="80"></textarea>
+      <input type="hidden" name="comment[post_id]" value="<%= @post.id %>">
+    </label>
+    <br>
+    <input type="submit" value="Create Comment">
+  </form>
+<% end %>
+
+<% if current_user == @post.author %>
+  <%= button_to("Edit Post", edit_post_url(@post), method: :get) %>
+  <%= button_to("Delete Post", post_url(@post), method: :delete) %>
+<% end %>

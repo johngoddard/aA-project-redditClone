@@ -1,0 +1,5 @@
+<h1>Edit Sub: <%= @sub.title %></h1>
+<%= render 'form', action: sub_url(@sub),
+                   method: :patch,
+                   sub: @sub,
+                   button_text: "Submit Changes" %>
